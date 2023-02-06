@@ -15,10 +15,18 @@
             <div class="card w-50 mx-auto">
                 <div class="card-body">
                     <form method="get" action=".">
-                        <div class="mb-3">
-                            <label for="cep" class="form-label">Cep</label>
+                        <div class="mb-3" id="cep-validation">
+                            <label for="cep" class="form-label">Cep
+                                <span id="passwordHelpInline" class="form-text">
+                                    *Apenas números.
+                                </span>
+                            </label>
                             <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
-                                onblur="pesquisacep(this.value);" class="form-control" aria-describedby="cep" />
+                                onfocus="limpaerro()" onblur="pesquisacep(this.value);" class="form-control"
+                                aria-describedby="cep" />
+                            <div id="cep-nao-encontrado" class="text-danger" style="display: none;">CEP não encontrado.
+                            </div>
+                            <div id="cep-invalido" class="text-danger" style="display: none;">CEP inválido.</div>
                         </div>
 
                         <div class="mb-3">
@@ -54,6 +62,11 @@
         </script>
     <script>
 
+        function limpaerro() {
+            document.getElementById('cep-nao-encontrado').style.display = 'none';
+            document.getElementById('cep-invalido').style.display = 'none';
+        }
+
         function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.
             document.getElementById('rua').value = ("");
@@ -73,7 +86,7 @@
             else {
                 //CEP não Encontrado.
                 limpa_formulário_cep();
-                alert("CEP não encontrado.");
+                document.getElementById('cep-nao-encontrado').style.display = 'block';
             }
         }
 
@@ -110,7 +123,7 @@
                 else {
                     //cep é inválido.
                     limpa_formulário_cep();
-                    alert("Formato de CEP inválido.");
+                    document.getElementById('cep-invalido').style.display = 'block';
                 }
             } //end if.
             else {
